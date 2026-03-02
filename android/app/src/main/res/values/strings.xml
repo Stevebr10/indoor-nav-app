@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">IndoorNav</string>
+    <string name="title_activity_main">IndoorNav</string>
+    <string name="package_name">com.epn.indoornav</string>
+    <string name="custom_url_scheme">com.epn.indoornav</string>
+</resources>

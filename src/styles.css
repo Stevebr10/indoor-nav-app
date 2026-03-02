@@ -1,3 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'tailwindcss';
+
+@theme { /*colores personalizados de la app*/
+    --color-primary: #258cf4;
+    --color-bg-dark: #000000;
+    --color-surface: #1A1A1A;
+    --color-contrast: #FFFF00;
+    --color-gps: #258cf4;
+     --color-ble: #f59e0b;
+    --color-nfc: #ec4899;
+    --color-success: #22c55e;
+  
+    --font-display: "Lexend", sans-serif;
+}
+
+/*Estilos globales */
+
+@layer base {
+    *{
+        -webkit-tap-highlight-color: transparent;
+        user-select: none;
+    }
+}

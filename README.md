@@ -1,59 +1,69 @@
-# IndoorNav
+# Indoor Nav App 📍🚶‍♂️
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.0.
+Proyecto de integración curricular para el desarrollo de una aplicación móvil de navegación interior asistida para personas con discapacidad visual, utilizando tecnologías de proximidad (NFC, BLE) y posicionamiento dinámico.
 
-## Development server
+## 🚀 Tecnologías Principales
+* **Framework:** [Angular](https://angular.io/) (v17+)
+* **Mobile Runtime:** [Capacitor](https://capacitorjs.com/)
+* **Estilos:** [Tailwind CSS](https://tailwindcss.com/)
+* **Metodología:** iPlus + Scrum
 
-To start a local development server, run:
+---
 
-```bash
+## 🛠️ Configuración del Entorno
+
+### Requisitos Previos
+Asegúrate de tener instalado:
+* **Node.js** (Versión LTS recomendada)
+* **Angular CLI:** `npm install -g @angular/cli`
+* **Ionic CLI** (Opcional, para facilitar comandos de Capacitor): `npm install -g @ionic/cli`
+
+### Instalación y Primeros Pasos
+1. **Clonar el repositorio:**
+   ```bash
+   git clone [https://github.com/tu-usuario/indoor-nav-app.git](https://github.com/tu-usuario/indoor-nav-app.git)
+   cd indoor-nav-app
+
+2. Instalar dependencias:
+npm install
+
+3. Levantar el servidor de desarrollo (Web):
 ng serve
-```
+Accede a http://localhost:4200 en tu navegador.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+🌿 Estrategia de Ramas (GitFlow Simplificado)
+Para mantener la integridad del código, seguimos este flujo de trabajo:
 
-## Code scaffolding
+* **main:** Rama de producción. Solo contiene código estable y funcional (versiones entregables para la defensa).
+* **develop:** Rama de desarrollo activo. Aquí es donde se integran las nuevas funcionalidades, estilos y pruebas de hardware.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Comandos de Flujo Diario
+1. Empezar a trabajar:
+Siempre asegúrate de estar en develop antes de escribir código.
+git checkout develop
 
-```bash
-ng generate component component-name
-```
+2. Guardar avances (Commits):
+Utilizamos mensajes descriptivos para el respaldo.
+git add .
+git commit -m "feat: descripción corta del cambio"
+git push origin develop
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+3. Pasar a Producción (Merge a Main):
+Solo cuando una funcionalidad esté 100% probada y estable.
+git checkout main
+git merge develop
+git push origin main
+git checkout develop
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
+## 📱 Despliegue en Dispositivos (Capacitor)
+Para probar funciones de hardware como NFC o Bluetooth Beacons:
+Construir el proyecto web:
 ng build
-```
+Sincronizar con plataformas nativas:
+npx cap sync
+Abrir en Android Studio / Xcode:
+npx cap open android  ó npx cap open ios
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 📌 Notas del Proyecto
+Hardware: Las pruebas se realizan con Beacons BLE y Tags NFC en los pasillos de la facultad.
+Estado Actual: Configuración inicial de arquitectura y estilos base.
