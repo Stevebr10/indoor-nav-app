@@ -1,101 +1,47 @@
 <header class="shrink-0 pt-safe p-4 border-b border-white/20 bg-surface z-20">
-        <div class="flex items-center justify-between mb-4">
-            <div id="appLogo" class="interactive-element p-2 rounded-xl"
-                 data-speech="IndoorNav. Sistema de navegación. Mantén presionado 3 segundos para configuración de administrador."
-                 oncontextmenu="return false;"> <h1 class="text-3xl font-bold text-primary tracking-wide">IndoorNav</h1>
-            </div>
-        </div>
-        
-        <div class="interactive-element bg-primary/20 border border-primary/50 rounded-xl p-4 flex items-center gap-4" 
-             data-speech="Ubicación Actual: Entrada Principal.">
-            <span class="material-symbols-rounded text-primary text-4xl">my_location</span>
-            <div>
-                <p class="text-xs text-primary font-bold uppercase">Estás en:</p>
-                <p class="text-xl font-extrabold text-white">Entrada Principal</p>
-            </div>
-        </div>
-    </header>
-
-    <main class="flex-1 overflow-y-auto px-4 py-6 space-y-4" id="mainMenu">
-        
-        <h2 class="interactive-element text-contrast text-lg font-bold uppercase tracking-widest px-2 mb-2"
-            data-speech="Sección de Categorías. ¿A dónde quieres ir?">
-            ¿A dónde quieres ir?
-        </h2>
-
-        <!-- <div class="interactive-element big-btn w-full bg-surface border-l-8 border-blue-500 rounded-r-xl p-6 flex items-center justify-between shadow-lg mb-4"
-             data-speech="Categoría Aulas. Salones de clase."
-             data-action="list:aulas"
-             data-confirm="¿Deseas entrar a la categoría Aulas?"> -->
-        <div (click)="probarVoz()" class="interactive-element big-btn w-full bg-surface border-l-8 border-blue-500 rounded-r-xl p-6 flex items-center justify-between shadow-lg mb-4">
-            <div class="flex items-center gap-4">
-                <span class="material-symbols-rounded text-5xl text-blue-400">school</span>
-                <div class="text-left">
-                    <span class="block text-3xl font-black text-white mb-1">Aulas</span>
-                    <span class="block text-lg text-gray-400 font-medium">Salones de clase</span>
-                </div>
-            </div>
-            <span class="material-symbols-rounded text-5xl text-white">chevron_right</span>
-        </div>
-
-        <div class="interactive-element big-btn w-full bg-surface border-l-8 border-green-500 rounded-r-xl p-6 flex items-center justify-between shadow-lg mb-4"
-             data-speech="Ir al Baño más cercano."
-             data-action="route:Baños"
-             data-confirm="¿Quieres iniciar la ruta hacia los Baños?">
-            <div class="flex items-center gap-4">
-                <span class="material-symbols-rounded text-5xl text-green-400">wc</span>
-                <div class="text-left">
-                    <span class="block text-3xl font-black text-white mb-1">Baños</span>
-                    <span class="block text-lg text-gray-400 font-medium">Planta Baja</span>
-                </div>
-            </div>
-            <span class="material-symbols-rounded text-5xl text-white">directions_run</span>
-        </div>
-
-        <div class="interactive-element big-btn w-full bg-surface border-l-8 border-amber-500 rounded-r-xl p-6 flex items-center justify-between shadow-lg"
-             data-speech="Categoría Oficinas. Secretaría y Dirección."
-             data-action="list:oficinas"
-             data-confirm="¿Deseas buscar oficinas administrativas?">
-            <div class="flex items-center gap-4">
-                <span class="material-symbols-rounded text-5xl text-amber-400">badge</span>
-                <div class="text-left">
-                    <span class="block text-3xl font-black text-white mb-1">Oficinas</span>
-                    <span class="block text-lg text-gray-400 font-medium">Trámites</span>
-                </div>
-            </div>
-            <span class="material-symbols-rounded text-5xl text-white">chevron_right</span>
-        </div>
-
-    </main>
-
-    <div id="subList" class="hidden flex-1 flex-col bg-bg-dark absolute inset-0 z-30">
-        <header class="p-4 bg-surface border-b border-white/20 flex items-center gap-4">
-            <button onclick="closeList()" class="interactive-element p-4 bg-white/10 rounded-full" data-speech="Volver atrás">
-                <span class="material-symbols-rounded text-white text-3xl">arrow_back</span>
-            </button>
-            <h2 id="listTitle" class="interactive-element text-2xl font-bold text-white" data-speech="Lista de destinos">Lista</h2>
-        </header>
-        <div class="flex-1 overflow-y-auto p-4 space-y-4" id="listContent">
-            </div>
-    </div>
-
-    <div id="confirmModal" class="hidden fixed inset-0 z-50 bg-black flex-col">
-        <button id="btnConfirmYes" class="interactive-element split-screen-btn bg-green-600 text-white"
-                data-speech="SÍ. Confirmar selección. Toca dos veces para aceptar."
-                data-action="confirm-yes">
-            <span class="material-symbols-rounded text-6xl mb-4">check_circle</span>
-            SÍ, VAMOS
-        </button>
-
-        <button id="btnConfirmNo" class="interactive-element split-screen-btn bg-red-600 text-white"
-                data-speech="NO. Cancelar y volver. Toca dos veces para cancelar."
-                data-action="confirm-no">
-            <span class="material-symbols-rounded text-6xl mb-4">cancel</span>
-            NO, VOLVER
-        </button>
-
-        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black border-4 border-white rounded-2xl p-6 w-3/4 text-center pointer-events-none">
-            <h3 id="confirmText" class="text-xl font-bold text-white uppercase">¿Confirmar?</h3>
+    <div class="flex items-center justify-between mb-4">
+        <div (mousedown)="startAdminPress()" (mouseup)="cancelAdminPress()"
+             (touchstart)="startAdminPress()" (touchend)="cancelAdminPress()"
+             class="p-2 rounded-xl active:scale-95 transition-transform">
+            <h1 class="text-3xl font-bold text-primary tracking-wide">IndoorNav</h1>
         </div>
     </div>
     
+    <div class="bg-primary/20 border border-primary/50 rounded-xl p-4 flex items-center gap-4">
+        <span class="material-symbols-rounded text-primary text-4xl">my_location</span>
+        <div>
+            <p class="text-xs text-primary font-bold uppercase">Estás en:</p>
+            <p class="text-xl font-extrabold text-white">Entrada Principal</p>
+        </div>
+    </div>
+</header>
+
+<main class="flex-1 overflow-y-auto px-4 py-6 space-y-4">
+    <h2 class="text-contrast text-lg font-bold uppercase tracking-widest px-2 mb-2">
+        ¿A dónde quieres ir?
+    </h2>
+
+    @for (cat of categories; track cat) {
+        <div (click)="handleInteraction(cat)"
+             [class.ring-4]="currentFocus === cat"
+             [class.ring-contrast]="currentFocus === cat"
+             class="w-full bg-surface border-l-8 border-primary rounded-r-xl p-6 flex items-center justify-between shadow-lg mb-4 transition-all duration-200">
+            
+            <div class="flex items-center gap-4">
+                <span class="material-symbols-rounded text-5xl text-primary">explore</span>
+                <div class="text-left">
+                    <span class="block text-3xl font-black text-white mb-1 capitalize">{{ cat }}</span>
+                    <span class="block text-sm text-gray-400 font-medium">Toca para ver destinos</span>
+                </div>
+            </div>
+            <span class="material-symbols-rounded text-5xl text-white">chevron_right</span>
+        </div>
+    }
+
+    @if (categories.length === 0) {
+        <div class="text-center mt-10 p-6 border-2 border-dashed border-gray-600 rounded-xl">
+            <span class="material-symbols-rounded text-4xl text-gray-500 mb-2">route</span>
+            <p class="text-gray-400 font-medium">No hay rutas configuradas en el edificio.</p>
+        </div>
+    }
+</main>

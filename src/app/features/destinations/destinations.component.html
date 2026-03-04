@@ -1,0 +1,46 @@
+<header (click)="handleBackInteraction()" 
+        [class.ring-4]="currentFocus === 'backBtn'"
+        [class.ring-contrast]="currentFocus === 'backBtn'"
+        class="shrink-0 pt-safe p-4 border-b border-white/20 bg-surface z-20 w-full active:bg-gray-800 transition-all duration-200 cursor-pointer">
+    
+    <div class="flex items-center gap-4">
+        <div class="p-3 bg-gray-700 rounded-xl flex items-center justify-center">
+            <span class="material-symbols-rounded text-white text-3xl">arrow_back</span>
+        </div>
+        
+        <div class="text-left">
+            <p class="text-xs text-primary font-bold uppercase">Regresar a categorías</p>
+            <h1 class="text-2xl font-extrabold text-white capitalize">{{ categoryName }}</h1>
+        </div>
+    </div>
+</header>
+
+<main class="flex-1 overflow-y-auto px-4 py-6 space-y-4">
+    <h2 class="text-contrast text-lg font-bold uppercase tracking-widest px-2 mb-2">
+        Elige tu destino
+    </h2>
+
+    @for (dest of destinations; track dest.id) {
+        <div (click)="handleInteraction(dest)"
+             [class.ring-4]="currentFocus === dest.id"
+             [class.ring-contrast]="currentFocus === dest.id"
+             class="w-full bg-surface border-l-8 border-green-500 rounded-r-xl p-6 flex items-center justify-between shadow-lg mb-4 transition-all duration-200">
+            
+            <div class="flex items-center gap-4">
+                <span class="material-symbols-rounded text-5xl text-green-500">meeting_room</span>
+                <div class="text-left">
+                    <span class="block text-2xl font-black text-white mb-1">{{ dest.name }}</span>
+                    <span class="block text-sm text-gray-400 font-medium line-clamp-2">{{ dest.description }}</span>
+                </div>
+            </div>
+            <span class="material-symbols-rounded text-5xl text-white">directions_walk</span>
+        </div>
+    }
+
+    @if (destinations.length === 0) {
+        <div class="text-center mt-10 p-6 border-2 border-dashed border-gray-600 rounded-xl">
+            <span class="material-symbols-rounded text-4xl text-gray-500 mb-2">location_off</span>
+            <p class="text-gray-400 font-medium">No hay destinos activos en esta categoría.</p>
+        </div>
+    }
+</main>
