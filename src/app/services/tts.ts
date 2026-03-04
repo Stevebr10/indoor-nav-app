@@ -16,7 +16,7 @@ export class Tts {
      await TextToSpeech.speak({
        text: textToSay,
        lang: 'es-ES',  //Lenguaje español de España
-       rate: 1.0,      //Velocidad normal de reproduccion
+       rate: 1.5,      //Velocidad normal de reproduccion
        pitch: 1.0,     //Tono de voz normal
        volume:1.0,  
        category: 'ambient'  //Permite que el audio se reproduzca incluso si el dispositivo esta en modo silencio
