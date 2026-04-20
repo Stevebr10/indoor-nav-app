@@ -113,3 +113,17 @@ Otra Opcion: El estándar correcto de la industria es: Hacer la rama desde devel
    
    4. Lanzamiento a Producción (En GitHub):
    Cuando tengas varias funcionalidades en develop y sepas que todo en conjunto funciona perfecto en los pasillos de tu facultad, abres un PR general de develop hacia main para tu entrega oficial.
+
+# Desarrollo - levanta en http://localhost:4200
+ng serve
+npm run start
+
+# Compilar para producción
+ng build - npm run build
+ng build --configuration production   # optimizado y minificado
+
+# Compilar y ver el output en tiempo real
+ng build --watch
+
+# Pruebas unitarias
+ng test

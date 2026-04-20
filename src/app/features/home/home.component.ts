@@ -55,8 +55,11 @@ export class HomeComponent implements OnInit {
       if(timeSinceLastTap < 500) {
         this.tts.speak(`Entrando a la categoria ${category}`);
         console.log(`Navengando a la categoria ${category}`);
-        this.router.navigate(['/destinations', category]);
-        return;
+        setTimeout(() => {
+          this.router.navigate(['/destinations', category]);
+        }, 2000);
+        
+        //return;
       } else {
         this.lastTapTime = currentTime;
          this.tts.speak(`Categoría ${category}. Toca dos veces para abrir la lista de destinos.`);

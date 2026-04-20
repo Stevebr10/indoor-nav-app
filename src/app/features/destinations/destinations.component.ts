@@ -1,9 +1,10 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy ,ChangeDetectorRef } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Tts } from '../../services/tts';
 import { StorageService } from '../../core/services/storage.service';
 import { Route } from '../../core/models/route.model';
+import { NavigationService } from '../../core/services/navigation.service';
 
 @Component({
   selector: 'app-destinations',
@@ -12,7 +13,7 @@ import { Route } from '../../core/models/route.model';
   templateUrl: './destinations.component.html',
   styleUrl: './destinations.component.css',
 })
-export class DestinationsComponent implements OnInit {
+export class DestinationsComponent implements OnInit, OnDestroy {
   categoryName: string = '';
   destinations: Route[] = [];
   currentFocus: string | null = null;
@@ -24,7 +25,8 @@ export class DestinationsComponent implements OnInit {
     private location: Location,      // Para el boton de atras
     private tts: Tts,
     private storage: StorageService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private navigation: NavigationService
   ){}
 
   async ngOnInit() {
@@ -36,6 +38,10 @@ export class DestinationsComponent implements OnInit {
     setTimeout(() => {
      this.tts.speak(`Lista de ${this.categoryName}. Tienes ${this.destinations.length} destinos disponibles. Recuerda que tienes un botón para regresar en la parte superior de la pantalla. Explora tocando para escuchar las opciones.`);
     }, 1000);
+  }
+
+  ngOnDestroy() {
+      this.navigation.stopNavigation();
   }
 
   //Motor de accedibilidad 1 toque / 2 toques
@@ -51,10 +57,16 @@ export class DestinationsComponent implements OnInit {
 
     } else {
       //Segundo Toque: Ejecutar la accion
-      if(timeSinceLastTap < 500) {
+      if(timeSinceLastTap < 500) { // el 500 es el tiempo maximo entre toques para considerarlo un doble toque, se puede ajustar segun las necesidades
+        //Encendemos el GPS
         this.tts.speak(`Iniciando ruta hacia ${destination.name}.`);
         console.log(`Listo para iniciar sensores hacia la ruta ID: ${destination.id}`);
+        //this.navigation.startNavigation(destination);
         //Aqui iria la logica para iniciar los sensores y la navegacion
+        this.navigation.fullRoute = destination;
+        setTimeout(() => {
+          this.router.navigate(['/active-nav']); 
+        }, 1500);
       } else {
         this.lastTapTime = currentTime;
         this.tts.speak(`Destino: ${destination.name}. Toca dos veces para iniciar.`);
@@ -79,7 +91,10 @@ export class DestinationsComponent implements OnInit {
       if (timeSinceLastTap < 500) {
         // Doble toque rápido = Regresar
         this.tts.speak('Regresando.');
-        this.location.back();
+        setTimeout(() => {    
+          this.location.back();  
+        }, 2000);
+       
       } else {
         // Toque lento = Repaso
         this.lastTapTime = currentTime;
