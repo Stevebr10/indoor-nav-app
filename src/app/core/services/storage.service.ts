@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Preferences } from '@capacitor/preferences';
 import { Route } from '../models/route.model';
 
-const ROUTES_KEY = 'indoor_nav_routes';
+//const ROUTES_KEY = 'indoor_nav_routes';
+const ROUTES_KEY = 'indoor_nav_routes_v2'; // Cambiamos la clave para evitar conflictos con datos anteriores
 
 @Injectable({
   providedIn: 'root',
@@ -57,11 +58,13 @@ export class StorageService {
         steps: [
           { 
             id: 'n1', 
-            name: 'Entrada Principal', 
+            name: 'Entrada Principal - Punto de prueba exterior', 
             type: 'GPS', 
+            latitude: -0.240344, 
+            longitude: -78.483604,
             description: 'Exterior', 
             icon: 'satellite_alt', 
-            ttsInstruction: 'Estás en la entrada principal del edificio. Cambiando a sensores internos.' 
+            ttsInstruction: 'Prueba de GPS completada con éxito' 
           },
           { 
             id: 'n2', 

@@ -1,0 +1,50 @@
+@if (isConfirmingCancel) {
+    <div class="flex flex-col h-screen w-full bg-surface">
+        <header (click)="handleCancelRequest()" 
+                [class.ring-4]="currentFocus === 'cancelBtn'"
+                [class.ring-red-500]="currentFocus === 'cancelBtn'"
+                class="shrink-0 pt-safe p-6 bg-red-600 active:bg-red-700 transition-all cursor-pointer shadow-lg z-20">
+            <div class="flex flex-col items-center justify-center">
+                <span class="material-symbols-rounded text-white text-5xl mb-2">cancel</span>
+                <h1 class="text-2xl font-black text-white uppercase tracking-widest">Detener Ruta</h1>
+            </div>
+        </header>
+        <main (click)="handleMainScreenTap()" 
+              class="flex-1 flex flex-col items-center justify-center p-8 active:bg-gray-800 transition-colors cursor-pointer">
+            
+            <div class="p-6 rounded-full bg-primary/20 mb-8 animate-pulse">
+                <span class="material-symbols-rounded text-primary" style="font-size: 80px;">
+                    {{ navState.tech === 'GPS' ? 'satellite_alt' : (navState.tech === 'BLUETOOTH' ? 'bluetooth' : 'nfc') }}
+                </span>
+            </div>
+
+            <h2 class="text-contrast text-3xl font-black uppercase mb-4">{{ navState.tech }} ACTIVO</h2>
+            <p class="text-white text-2xl text-center font-medium leading-relaxed">{{ navState.instruction }}</p>
+
+            <div class="mt-auto pb-4">
+                <p class="text-gray-500 text-sm font-bold uppercase tracking-widest text-center">Toque una vez para repetir la instrucción</p>
+            </div>
+        </main>
+    </div>
+}
+@else {
+    <div class="flex flex-col h-screen w-full">
+        
+        <button (click)="confirmCancel()"
+                [class.ring-8]="currentFocus === 'confirmYes'"
+                [class.ring-white]="currentFocus === 'confirmYes'"
+                class="flex-1 w-full bg-red-600 flex flex-col items-center justify-center transition-all cursor-pointer border-b-4 border-gray-900 z-10">
+            <span class="material-symbols-rounded text-white text-6xl mb-4">close</span>
+            <span class="text-4xl font-black text-white uppercase">Sí, Cancelar</span>
+        </button>
+
+        <button (click)="rejectCancel()"
+                [class.ring-8]="currentFocus === 'confirmNo'"
+                [class.ring-white]="currentFocus === 'confirmNo'"
+                class="flex-1 w-full bg-green-600 flex flex-col items-center justify-center transition-all cursor-pointer z-10">
+            <span class="material-symbols-rounded text-white text-6xl mb-4">play_arrow</span>
+            <span class="text-4xl font-black text-white uppercase">No, Continuar</span>
+        </button>
+
+    </div>
+}
