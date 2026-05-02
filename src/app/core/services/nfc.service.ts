@@ -44,10 +44,28 @@ export class NfcService {
   }
 
   private processTag(event: any) {
-    const payloadString = JSON.stringify(event).toLowerCase();
+    let extraxtedText = '';
+    try {
+      if (event.messages && event.messages.length > 0) {
+        const records = event.messages[0].records;
+        for(let record of records) {
+          if (record.payload) {
+            const langLen = record.payload[0] & 0x3F; // Los primeros 6 bits indican la longitud del código de idioma
+            //Cortamos esos metadatos y nos quedamos solo con el texto
+            const textBytes = record.payload.slice(1+langLen);
+            const text = new TextDecoder('utf-8').decode(new Uint8Array(textBytes)); // Decodificamos el texto
+            extraxtedText += text.toLowerCase(); // Concatenamos el texto de todos los registros, en minúsculas para facilitar la comparación
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Error extrayendo texto NFC", error);
+      extraxtedText = JSON.stringify(event).toLowerCase();
+    }
+    //const payloadString = JSON.stringify(event).toLowerCase();
     const targetPayload = this.targetNode?.nfcPayload?.toLowerCase() || '';
 
-    if (targetPayload && payloadString.includes(targetPayload)) {
+    if (targetPayload && extraxtedText.includes(targetPayload)) {
       //EL EXITO
       Haptics.vibrate({duration: 2000});
       this.tts.speak("Destino confirmado. Has llegado a tu destino");
@@ -76,7 +94,7 @@ export class NfcService {
 
     if (this.nfcListenerHandle) {
       this.nfcListenerHandle.remove();
-      this.nfcListenerHandle = null;
+      this.nfcListenerHandle = null;  
     }
 
     this.targetNode = null;
