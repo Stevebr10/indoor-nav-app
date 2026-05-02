@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { NavigationService } from '../../core/services/navigation.service';
@@ -17,21 +17,27 @@ export class ActiveNavigationComponent implements OnInit, OnDestroy {
   isConfirmingCancel = false;
   currentFocus: string | null = null;
   lastTapTime: number = 0;
+  private screenLoadTime: number = 0;
 
   constructor(
 
     private navigation: NavigationService,
     private tts: Tts,
     private location: Location,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {
 
   }
 
   ngOnInit() {
+
+    //Guardamos el tiempo de carga de la pantalla para evitar que se consideren toques previos a la interacción
+    this.screenLoadTime = Date.now();
     // Nos suscribimos a los cambios en tiempo real del GPS/BLE/NFC
     this.navigation.currentNavState.subscribe(state => {
       this.navState = state;
+      this.cdr.detectChanges();
     });
     // Iniciamos la navegación con la ruta que el usuario seleccionó
     if (this.navigation.fullRoute) {
@@ -49,16 +55,21 @@ export class ActiveNavigationComponent implements OnInit, OnDestroy {
   }
   // Motor de interaccion de la pantalla principal
   handleMainScreenTap() {
+    //El escudoo de tiempo para evitar que se consideren toques previos a la interacción
+    if(Date.now() - this.screenLoadTime < 1000) return;
+
     if (this.isConfirmingCancel) return;
     this.tts.speak(`Repitiendo: ${this.navState.instruction}`);
   }
 
   handleCancelRequest() {
-    const currentTime = new Date().getTime();
+    if (Date.now() - this.screenLoadTime <1000) return;
+    //const currentTime = new Date().getTime();
+    const currentTime = Date.now();
     const timeSinceLastTap = currentTime - this.lastTapTime;
 
-    if (this.currentFocus !== 'cancel') {
-      this.currentFocus = 'cancel';
+    if (this.currentFocus !== 'cancelBtn') {
+      this.currentFocus = 'cancelBtn';
       this.lastTapTime = currentTime;
       this.tts.speak(`¿Deseas cancelar la navegación? Toca dos veces para confirmar.`);
     } else {
@@ -98,6 +109,12 @@ export class ActiveNavigationComponent implements OnInit, OnDestroy {
       this.isConfirmingCancel = false; // Oculta la pantalla dividida
       this.tts.speak("Continuando ruta.");
     }
+  }
+
+  finishSuccessRoute() {
+    this.tts.speak("Saliendo de la navegación. Regresando al menú principal.");
+    this.navigation.stopNavigation(true);
+    this.location.back();
   }
 
 

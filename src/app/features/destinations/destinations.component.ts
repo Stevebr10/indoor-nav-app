@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy ,ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit ,ChangeDetectorRef } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Tts } from '../../services/tts';
@@ -13,7 +13,7 @@ import { NavigationService } from '../../core/services/navigation.service';
   templateUrl: './destinations.component.html',
   styleUrl: './destinations.component.css',
 })
-export class DestinationsComponent implements OnInit, OnDestroy {
+export class DestinationsComponent implements OnInit {
   categoryName: string = '';
   destinations: Route[] = [];
   currentFocus: string | null = null;
@@ -40,9 +40,9 @@ export class DestinationsComponent implements OnInit, OnDestroy {
     }, 1000);
   }
 
-  ngOnDestroy() {
-      this.navigation.stopNavigation();
-  }
+  // ngOnDestroy() {
+  //     this.navigation.stopNavigation();
+  // }
 
   //Motor de accedibilidad 1 toque / 2 toques
   handleInteraction(destination: Route) {

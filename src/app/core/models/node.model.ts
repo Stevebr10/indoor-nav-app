@@ -11,6 +11,8 @@ export interface NavNode {
     latitude?: number;      // Solo para nodos del GPS
     longitude?: number;     // Solo para nodos del gps
     bleUuid?: string;       // Identificador unico del Beacon
+    bleMajor?: number;
+    bleMinor?: number; 
     nfcPayload?: string;    // El texto que tendra grabada el nodo NFC 
 
     // Interfaz y acccesibilidad
